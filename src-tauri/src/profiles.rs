@@ -235,7 +235,7 @@ pub fn profile_store_uuid(id: &str) -> [u8; 16] {
     let mut h1 = FNV_OFFSET_1;
     let mut h2 = FNV_OFFSET_2;
 
-    for &b in b"zalo-ultra-native:".iter().chain(id.as_bytes().iter()) {
+    for &b in b"zalo-rust:".iter().chain(id.as_bytes().iter()) {
         h1 ^= u64::from(b);
         h1 = h1.wrapping_mul(FNV_PRIME);
 

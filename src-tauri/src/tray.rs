@@ -22,7 +22,7 @@ pub(crate) fn show_and_focus_main(app: &tauri::AppHandle) {
             "main",
             tauri::WebviewUrl::App("index.html".into()),
         )
-        .title("Zalo Ultra Native")
+        .title("Zalo Rust")
         .inner_size(540.0, 640.0)
         .min_inner_size(460.0, 520.0)
         .center()
@@ -63,7 +63,7 @@ pub fn setup_tray(app: &tauri::AppHandle) -> tauri::Result<()> {
 
     TrayIconBuilder::with_id("main-tray")
         .icon(icon)
-        .tooltip("Zalo Ultra Native")
+        .tooltip("Zalo Rust")
         .menu(&menu)
         .show_menu_on_left_click(false)
         .on_menu_event(|app, event| match event.id().as_ref() {

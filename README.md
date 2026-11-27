@@ -1,18 +1,18 @@
 <div align="center">
 
-<img src="assets/cute-cat-butterfly-banner.svg" alt="Zalo Ultra Native Cute Pixel Cat Chasing Butterflies" width="100%" />
+<img src="assets/cute-cat-butterfly-banner.svg" alt="Zalo Rust Cute Pixel Cat Chasing Butterflies" width="100%" />
 
 <br />
 
 [![Rust + Tauri v2](https://img.shields.io/badge/Built%20With-Rust%20%2B%20Tauri%20v2-F97316?style=for-the-badge&logo=rust&logoColor=white)](#)
-[![Binary Size](https://img.shields.io/badge/Windows%20EXE-2.98%20MB-22C55E?style=for-the-badge&logo=windows&logoColor=white)](https://github.com/xomno01/zalo-ultra-native/releases/latest/download/ZaloUltraNative-v1.0.2-win64.exe)
+[![Binary Size](https://img.shields.io/badge/Windows%20EXE-2.98%20MB-22C55E?style=for-the-badge&logo=windows&logoColor=white)](https://github.com/xomno01/zalo-rust/releases/latest/download/ZaloRust-v1.1.0-win64.exe)
 [![Cross Platform](https://img.shields.io/badge/OS-Windows%20%26%20macOS-38BDF8?style=for-the-badge&logo=apple&logoColor=white)](#)
 [![Multi Account](https://img.shields.io/badge/Multi--Account-Isolated%20WebView-EC4899?style=for-the-badge)](#)
 [![Zero Zalo PC](https://img.shields.io/badge/Zalo%20PC%20Required-NO%20(100%25%20Standalone)-A855F7?style=for-the-badge)](#)
 
-**Ứng dụng Zalo Desktop độc lập viết lại hoàn toàn bằng Rust + Tauri v2 — siêu nhẹ 2.98 MB, không cần cài Zalo PC gốc, mở nhiều tài khoản song song trên cả Windows & macOS.**
+**Zalo Rust — Ứng dụng Zalo Desktop độc lập viết lại hoàn toàn bằng Rust + Tauri v2, siêu nhẹ ~3 MB, không cần cài Zalo PC gốc, mở nhiều tài khoản song song trên cả Windows & macOS.**
 
-[⬇️ Tải Ngay v1.0.2](#-tải-về--chạy-ngay-1-click) • [✨ Tính Năng Đầy Đủ](#-kiểm-tra-tất-tần-tật-tính-năng) • [⚡ Kiểm Chứng Xung Đột Multi-Zalo](#-kiểm-tra-xung-đột-khi-dùng-nhiều-zalo-cùng-lúc) • [🛠 Build Từ Source](#-phát-triển--build-từ-source)
+[⬇️ Tải Ngay v1.1.0](#-tải-về--chạy-ngay-1-click) • [✨ Tính Năng Đầy Đủ](#-kiểm-tra-tất-tần-tật-tính-năng) • [⚡ Kiểm Chứng Xung Đột Multi-Zalo](#-kiểm-tra-xung-đột-khi-dùng-nhiều-zalo-cùng-lúc) • [🛠 Build Từ Source](#-phát-triển--build-từ-source)
 
 </div>
 
@@ -24,8 +24,8 @@
 
 | Nền tảng | File tải về | Dung lượng | Link |
 | :--- | :--- | :--- | :--- |
-| **Windows 10/11 (64-bit)** | `ZaloUltraNative-v1.0.2-win64.exe` | **`2.98 MB`** | [![Download v1.0.2](https://img.shields.io/badge/T%E1%BA%A3i%20Ngay-v1.0.2%20(.EXE)-22C55E?style=for-the-badge&logo=windows&logoColor=white)](https://github.com/xomno01/zalo-ultra-native/releases/latest/download/ZaloUltraNative-v1.0.2-win64.exe) |
-| **Tất cả phiên bản / macOS CI** | Trang Releases (`.exe`, `.msi`, `.dmg`) | — | [![GitHub Releases](https://img.shields.io/badge/GitHub-Releases-0F172A?style=for-the-badge&logo=github&logoColor=white)](https://github.com/xomno01/zalo-ultra-native/releases/latest) |
+| **Windows 10/11 (64-bit)** | `ZaloRust-v1.1.0-win64.exe` | **`2.98 MB`** | [![Download v1.1.0](https://img.shields.io/badge/T%E1%BA%A3i%20Ngay-v1.1.0%20(.EXE)-22C55E?style=for-the-badge&logo=windows&logoColor=white)](https://github.com/xomno01/zalo-rust/releases/latest/download/ZaloRust-v1.1.0-win64.exe) |
+| **Tất cả phiên bản / macOS CI** | Trang Releases (`.exe`, `.msi`, `.dmg`) | — | [![GitHub Releases](https://img.shields.io/badge/GitHub-Releases-0F172A?style=for-the-badge&logo=github&logoColor=white)](https://github.com/xomno01/zalo-rust/releases/latest) |
 
 - **Lưu ý Windows SmartScreen:** Do file Rust mã nguồn mở chưa mua chữ ký số thương mại, nếu Windows hiện cảnh báo *"Windows protected your PC"*, bấm **More info** → **Run anyway**.
 
@@ -42,12 +42,12 @@
    - Host Rust chỉ tốn **`~7.6 MB` Private Commit** (`~40 MB` Working Set), không gánh nhân Chromium/Node.js `738 MB` như Zalo Electron.
 2. **Quản lý & Mở nhiều tài khoản Zalo song song:**
    - Tạo không giới hạn hồ sơ tài khoản (`+ Thêm tài khoản`), lưu cấu hình trong `profiles.json` với kiểm tra ID chống path-traversal (`[a-z0-9_-]{1,32}`).
-   - **Windows/Linux:** Mỗi tài khoản được cấp 1 thư mục dữ liệu WebView2 tách biệt (`%APPDATA%\com.xomno01.zaloultranative\profiles\<id>`).
+   - **Windows/Linux:** Mỗi tài khoản được cấp 1 thư mục dữ liệu WebView2 tách biệt (`%APPDATA%\com.xomno01.zalorust\profiles\<id>`).
    - **macOS:** Mỗi tài khoản dùng 1 `data_store_identifier` UUID riêng trên WKWebView.
    - Bật **Tự mở** (`auto_open`) để tự động bật sẵn các nick quan trọng khi mở app.
 3. **Single-Instance thông minh (`v1.0.1` + `v1.0.2`):**
    - Bấm đúp icon Desktop nhiều lần sẽ không sinh tiến trình trùng làm lỗi khóa `EBWebView`, mà tự đưa cửa sổ chính lên foreground (hoặc tự tạo lại cửa sổ nếu trước đó bị đóng).
-   - Hỗ trợ gọi mở thẳng 1 profile từ dòng lệnh: `ZaloUltraNative.exe --open-profile=default`.
+   - Hỗ trợ gọi mở thẳng 1 profile từ dòng lệnh: `ZaloRust.exe --open-profile=default`.
 4. **System Tray & Tự thoát sạch:**
    - Menu khay hệ thống tiếng Việt: **Quản lý tài khoản**, **Mở tài khoản mặc định**, **Nén RAM ngay**, **Thoát hoàn toàn**.
    - Khi đang có cửa sổ Zalo chat mở, bấm `X` ở trình quản lý sẽ thu gọn xuống khay hệ thống kèm nén RAM; nếu không có cửa sổ chat nào đang mở thì bấm `X` sẽ thoát app sạch sẽ.
@@ -62,7 +62,7 @@
 
 ## ⚡ Kiểm Tra Xung Đột Khi Dùng Nhiều Zalo Cùng Lúc
 
-Bảng đánh giá chi tiết khi chạy song song **nhiều tài khoản trong `Zalo Ultra Native`** hoặc chạy chung với **Zalo PC gốc / Zalo Ultra Client**:
+Bảng đánh giá chi tiết khi chạy song song **nhiều tài khoản trong `Zalo Rust`** hoặc chạy chung với **Zalo PC gốc / Zalo Ultra Client**:
 
 | Hạng mục kiểm tra | Có xung đột không? | Giải thích kỹ thuật & Lưu ý thực tế |
 | :--- | :--- | :--- |
@@ -94,7 +94,7 @@ cargo build --release
 ## 📁 Cấu Trúc Thư Mục
 
 ```text
-zalo-ultra-native/
+zalo-rust/
 ├── assets/
 │   ├── cute-cat-butterfly-banner.svg   # Banner mèo pixel chạy vờn bướm
 │   └── cute-cat-divider.svg            # Dải ngăn cách mèo trắng vờn bướm

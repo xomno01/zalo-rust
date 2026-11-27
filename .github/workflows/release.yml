@@ -1,4 +1,4 @@
-name: Release Zalo Ultra Native
+name: Release Zalo Rust
 
 on:
   push:
@@ -42,8 +42,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tagName: v__VERSION__
-          releaseName: 'Zalo Ultra Native v__VERSION__'
-          releaseBody: 'Standalone Zalo Ultra Native installers for Windows (WebView2) and macOS (Universal WKWebView).'
+          releaseName: 'Zalo Rust v__VERSION__'
+          releaseBody: 'Standalone Zalo Rust installers for Windows (WebView2) and macOS (Universal WKWebView).'
           releaseDraft: true
           prerelease: false
           args: ${{ matrix.args }}

@@ -5028,8 +5028,8 @@ dependencies = [
 ]
 
 [[package]]
-name = "zalo-ultra-native"
-version = "1.0.2"
+name = "zalo-rust"
+version = "1.1.0"
 dependencies = [
  "serde",
  "serde_json",

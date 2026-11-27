@@ -1,10 +1,10 @@
 [package]
-name = "zalo-ultra-native"
-version = "1.0.2"
+name = "zalo-rust"
+version = "1.1.0"
 edition = "2021"
 
 [lib]
-name = "zalo_ultra_native_lib"
+name = "zalo_rust_lib"
 crate-type = ["staticlib", "cdylib", "rlib"]
 
 [build-dependencies]

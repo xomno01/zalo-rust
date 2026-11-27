@@ -62,7 +62,7 @@ pub fn open_or_focus_profile_window(
         .map_err(|e| format!("URL Zalo không hợp lệ: {}", e))?;
 
     let mut builder = WebviewWindowBuilder::new(app, &label, WebviewUrl::External(zalo_url))
-        .title(format!("Zalo Ultra — {}", profile.name))
+        .title(format!("Zalo Rust — {}", profile.name))
         .inner_size(1180.0, 780.0)
         .min_inner_size(800.0, 600.0);
 

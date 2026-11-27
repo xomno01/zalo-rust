@@ -183,7 +183,7 @@ pub fn run() {
             quitting: AtomicBool::new(false),
         })
         .setup(|app| {
-            log_event(app.handle(), "[STARTUP] Zalo Ultra Native v1.0.2 initialized");
+            log_event(app.handle(), "[STARTUP] Zalo Rust v1.1.0 initialized");
             tray::setup_tray(app.handle())?;
 
             if let Some(main_win) = app.get_webview_window("main") {
@@ -222,10 +222,10 @@ mod tests {
     #[test]
     fn extracts_open_profile_arg_cleanly() {
         assert_eq!(
-            extract_open_profile_arg(["zalo-ultra-native.exe", "--open-profile=work"]),
+            extract_open_profile_arg(["zalo-rust.exe", "--open-profile=work"]),
             Some("work".to_string())
         );
-        assert_eq!(extract_open_profile_arg(["zalo-ultra-native.exe"]), None);
+        assert_eq!(extract_open_profile_arg(["zalo-rust.exe"]), None);
         assert_eq!(extract_open_profile_arg(["--open-profile="]), None);
     }
 }

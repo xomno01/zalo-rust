@@ -79,8 +79,8 @@
       <text x="24" y="16" fill="#fbcfe8" font-size="11" class="mono">STANDALONE // WINDOWS &amp; MAC</text>
 
       <!-- Pixel Title -->
-      <text x="2" y="68" fill="#0b1324" font-size="38" class="title">ZALO ULTRA NATIVE</text>
-      <text x="0" y="65" fill="#fef08a" font-size="38" class="title">ZALO ULTRA NATIVE</text>
+      <text x="2" y="68" fill="#0b1324" font-size="38" class="title">ZALO RUST</text>
+      <text x="0" y="65" fill="#fef08a" font-size="38" class="title">ZALO RUST</text>
 
       <text x="0" y="92" fill="#e0f2fe" font-size="13" class="mono">Rust + Tauri v2  •  2.98 MB  •  Multi-Account WebView  •  Zero Zalo PC</text>
 
