@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 68" width="880" height="68" shape-rendering="crispEdges">
+  <style>
+    @keyframes hop { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-4px); } }
+    @keyframes flap { 0%, 100% { transform: scaleY(1); } 50% { transform: scaleY(0.35); } }
+    @keyframes bob { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-6px); } }
+    .k-hop { animation: hop 0.34s steps(2, end) infinite; }
+    .b-flap { animation: flap 0.22s steps(2, end) infinite; transform-box: fill-box; transform-origin: center; }
+    .b-bob { animation: bob 0.8s ease-in-out infinite; }
+  </style>
+
+  <rect x="0" y="0" width="880" height="68" fill="#0f172a" rx="8" />
+  <rect x="2" y="54" width="876" height="12" fill="#15803d" rx="4" />
+  <rect x="2" y="50" width="876" height="6" fill="#22c55e" />
+
+  <!-- Cute Flowers -->
+  <rect x="90" y="46" width="6" height="4" fill="#f472b6" />
+  <rect x="270" y="46" width="6" height="4" fill="#fde047" />
+  <rect x="490" y="46" width="6" height="4" fill="#38bdf8" />
+  <rect x="730" y="46" width="6" height="4" fill="#fb7185" />
+
+  <!-- White Kitten Chasing Golden-Cyan Butterfly -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="-110,0;930,0" dur="8s" repeatCount="indefinite" />
+
+    <!-- Golden Butterfly -->
+    <g transform="translate(88, 16)">
+      <g class="b-bob">
+        <g class="b-flap">
+          <rect x="0" y="0" width="6" height="6" fill="#fde047" />
+          <rect x="8" y="0" width="6" height="6" fill="#fde047" />
+          <rect x="2" y="6" width="4" height="4" fill="#38bdf8" />
+          <rect x="8" y="6" width="4" height="4" fill="#38bdf8" />
+        </g>
+        <rect x="6" y="2" width="2" height="8" fill="#1e293b" />
+      </g>
+    </g>
+
+    <!-- Cream/White Pixel Kitten -->
+    <g class="k-hop" transform="translate(12, 24)">
+      <rect x="0" y="6" width="4" height="6" fill="#f8fafc" />
+      <rect x="4" y="10" width="4" height="4" fill="#e2e8f0" />
+      <rect x="8" y="12" width="20" height="10" fill="#ffffff" />
+      <rect x="22" y="2" width="16" height="14" fill="#ffffff" />
+      <rect x="22" y="0" width="4" height="4" fill="#f8fafc" />
+      <rect x="23" y="1" width="2" height="2" fill="#f472b6" />
+      <rect x="34" y="0" width="4" height="4" fill="#f8fafc" />
+      <rect x="35" y="1" width="2" height="2" fill="#f472b6" />
+      <rect x="28" y="7" width="3" height="3" fill="#0f172a" />
+      <rect x="35" y="7" width="3" height="3" fill="#0f172a" />
+      <rect x="32" y="10" width="2" height="2" fill="#f472b6" />
+      <rect x="10" y="22" width="4" height="4" fill="#f8fafc" />
+      <rect x="22" y="22" width="4" height="4" fill="#f8fafc" />
+    </g>
+  </g>
+</svg>
