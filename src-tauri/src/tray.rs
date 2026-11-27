@@ -6,11 +6,35 @@ use tauri::{
 };
 
 pub(crate) fn show_and_focus_main(app: &tauri::AppHandle) {
-    if let Some(win) = app.get_webview_window("main") {
-        let _ = win.show();
-        let _ = win.unminimize();
-        let _ = win.set_focus();
-    }
+    let app_handle = app.clone();
+    let _ = app.run_on_main_thread(move || {
+        if let Some(win) = app_handle.get_webview_window("main") {
+            let _ = win.unminimize();
+            let _ = win.show();
+            let _ = win.set_always_on_top(true);
+            let _ = win.set_focus();
+            let _ = win.set_always_on_top(false);
+            return;
+        }
+
+        if let Ok(win) = tauri::WebviewWindowBuilder::new(
+            &app_handle,
+            "main",
+            tauri::WebviewUrl::App("index.html".into()),
+        )
+        .title("Zalo Ultra Native")
+        .inner_size(540.0, 640.0)
+        .min_inner_size(460.0, 520.0)
+        .center()
+        .build()
+        {
+            crate::attach_main_close_handler(&win, &app_handle);
+            let _ = win.show();
+            let _ = win.set_always_on_top(true);
+            let _ = win.set_focus();
+            let _ = win.set_always_on_top(false);
+        }
+    });
 }
 
 fn toggle_main_window(app: &tauri::AppHandle) {

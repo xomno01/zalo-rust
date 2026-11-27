@@ -1,4 +1,5 @@
-use std::sync::atomic::AtomicBool;
+use std::io::Write;
+use std::sync::atomic::{AtomicBool, Ordering};
 use tauri::Manager;
 
 pub mod profiles;
@@ -7,6 +8,47 @@ pub mod windows;
 
 pub struct AppState {
     pub quitting: AtomicBool,
+}
+
+pub(crate) fn log_event(app: &tauri::AppHandle, msg: &str) {
+    let Ok(dir) = app.path().app_data_dir() else {
+        return;
+    };
+    let _ = std::fs::create_dir_all(&dir);
+    let log_path = dir.join("runtime.log");
+    if let Ok(mut file) = std::fs::OpenOptions::new()
+        .create(true)
+        .append(true)
+        .open(log_path)
+    {
+        let _ = writeln!(file, "{}", msg);
+    }
+}
+
+pub(crate) fn attach_main_close_handler(window: &tauri::WebviewWindow, app: &tauri::AppHandle) {
+    let win_for_event = window.clone();
+    let app_for_event = app.clone();
+    window.on_window_event(move |event| {
+        if let tauri::WindowEvent::CloseRequested { api, .. } = event {
+            let state = app_for_event.state::<AppState>();
+            let quitting = state.quitting.load(Ordering::SeqCst);
+            if quitting {
+                return;
+            }
+            let has_chat_windows = app_for_event
+                .webview_windows()
+                .keys()
+                .any(|label| label.starts_with("zalo-"));
+            if has_chat_windows {
+                api.prevent_close();
+                let _ = win_for_event.hide();
+                let _ = windows::trim_current_process_ram();
+            } else {
+                state.quitting.store(true, Ordering::SeqCst);
+                log_event(&app_for_event, "[EXIT] Main window closed with 0 active chat windows");
+            }
+        }
+    });
 }
 
 #[derive(Debug, Clone, serde::Serialize)]
@@ -72,8 +114,13 @@ where
 
 #[tauri::command]
 async fn cmd_open_profile(app: tauri::AppHandle, id: String) -> Result<(), String> {
+    log_event(&app, &format!("[CMD] open_profile id={}", id));
     let profile = profiles::get_profile(&app, &id)?;
-    windows::open_or_focus_profile_window(&app, &profile)
+    let res = windows::open_or_focus_profile_window(&app, &profile);
+    if let Err(ref e) = res {
+        log_event(&app, &format!("[ERROR] open_profile id={} err={}", id, e));
+    }
+    res
 }
 
 #[tauri::command]
@@ -119,6 +166,7 @@ pub fn run() {
     #[cfg(not(any(target_os = "android", target_os = "ios")))]
     {
         builder = builder.plugin(tauri_plugin_single_instance::init(|app, args, _cwd| {
+            log_event(app, &format!("[SINGLE-INSTANCE] wakeup args={:?}", args));
             tray::show_and_focus_main(app);
             if let Some(profile_id) = extract_open_profile_arg(&args) {
                 let app_clone = app.clone();
@@ -135,10 +183,11 @@ pub fn run() {
             quitting: AtomicBool::new(false),
         })
         .setup(|app| {
+            log_event(app.handle(), "[STARTUP] Zalo Ultra Native v1.0.2 initialized");
             tray::setup_tray(app.handle())?;
 
             if let Some(main_win) = app.get_webview_window("main") {
-                windows::attach_hide_on_close(&main_win, app.handle());
+                attach_main_close_handler(&main_win, app.handle());
             }
             tray::show_and_focus_main(app.handle());
 
