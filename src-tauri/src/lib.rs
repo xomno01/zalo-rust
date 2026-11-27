@@ -56,8 +56,22 @@ fn cmd_create_profile(
     Ok(ProfileView::from_profile(&app, created))
 }
 
+fn extract_open_profile_arg<I, S>(args: I) -> Option<String>
+where
+    I: IntoIterator<Item = S>,
+    S: AsRef<str>,
+{
+    args.into_iter().find_map(|arg| {
+        arg.as_ref()
+            .strip_prefix("--open-profile=")
+            .map(str::trim)
+            .filter(|id| !id.is_empty())
+            .map(str::to_string)
+    })
+}
+
 #[tauri::command]
-fn cmd_open_profile(app: tauri::AppHandle, id: String) -> Result<(), String> {
+async fn cmd_open_profile(app: tauri::AppHandle, id: String) -> Result<(), String> {
     let profile = profiles::get_profile(&app, &id)?;
     windows::open_or_focus_profile_window(&app, &profile)
 }
@@ -92,9 +106,30 @@ fn cmd_runtime_stats(app: tauri::AppHandle) -> RuntimeStats {
     }
 }
 
+fn open_profile_by_id(app: &tauri::AppHandle, id: &str) {
+    if let Ok(profile) = profiles::get_profile(app, id) {
+        let _ = windows::open_or_focus_profile_window(app, &profile);
+    }
+}
+
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
-    tauri::Builder::default()
+    let mut builder = tauri::Builder::default();
+
+    #[cfg(not(any(target_os = "android", target_os = "ios")))]
+    {
+        builder = builder.plugin(tauri_plugin_single_instance::init(|app, args, _cwd| {
+            tray::show_and_focus_main(app);
+            if let Some(profile_id) = extract_open_profile_arg(&args) {
+                let app_clone = app.clone();
+                tauri::async_runtime::spawn(async move {
+                    open_profile_by_id(&app_clone, &profile_id);
+                });
+            }
+        }));
+    }
+
+    builder
         .plugin(tauri_plugin_opener::init())
         .manage(AppState {
             quitting: AtomicBool::new(false),
@@ -105,11 +140,16 @@ pub fn run() {
             if let Some(main_win) = app.get_webview_window("main") {
                 windows::attach_hide_on_close(&main_win, app.handle());
             }
+            tray::show_and_focus_main(app.handle());
 
             if let Ok(list) = profiles::list_profiles(app.handle()) {
                 for profile in list.into_iter().filter(|p| p.auto_open) {
                     let _ = windows::open_or_focus_profile_window(app.handle(), &profile);
                 }
+            }
+
+            if let Some(profile_id) = extract_open_profile_arg(std::env::args()) {
+                open_profile_by_id(app.handle(), &profile_id);
             }
 
             Ok(())
@@ -124,4 +164,19 @@ pub fn run() {
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
+}
+
+#[cfg(test)]
+mod tests {
+    use super::extract_open_profile_arg;
+
+    #[test]
+    fn extracts_open_profile_arg_cleanly() {
+        assert_eq!(
+            extract_open_profile_arg(["zalo-ultra-native.exe", "--open-profile=work"]),
+            Some("work".to_string())
+        );
+        assert_eq!(extract_open_profile_arg(["zalo-ultra-native.exe"]), None);
+        assert_eq!(extract_open_profile_arg(["--open-profile="]), None);
+    }
 }

@@ -5,7 +5,7 @@ use tauri::{
     Manager,
 };
 
-fn show_and_focus_main(app: &tauri::AppHandle) {
+pub(crate) fn show_and_focus_main(app: &tauri::AppHandle) {
     if let Some(win) = app.get_webview_window("main") {
         let _ = win.show();
         let _ = win.unminimize();
@@ -18,9 +18,7 @@ fn toggle_main_window(app: &tauri::AppHandle) {
         if win.is_visible().unwrap_or(false) {
             let _ = win.hide();
         } else {
-            let _ = win.show();
-            let _ = win.unminimize();
-            let _ = win.set_focus();
+            show_and_focus_main(app);
         }
     }
 }
